@@ -31,6 +31,20 @@ function reset() {
  let shuffledCards = shuffle(cardArray);
  turns = 0;
  document.querySelector('.moves').innerText = turns;
+//adding stars back to score (no more than 3)
+ const scorePanel = document.querySelector('.stars');
+ let starsArray = scorePanel.querySelectorAll('li');
+ let numberOfStars = starsArray.length;
+ for (i = numberOfStars; i < 3; i++) {
+	 let listItem = document.createElement('LI');
+	 let star = document.createElement('I');
+	 star.classList.add('fa', 'fa-star');
+	 listItem.appendChild(star);
+	 scorePanel.appendChild(listItem);
+	 numberOfStars++;
+ }
+ // '<li><i class="fa fa-star"></i></li>'; 
+// document.querySelector('.stars').appendChild(star); //Add stars back to score panel
  /*
  *   - loop through each card and create its HTML
  *   - add each card's HTML to the page
@@ -44,7 +58,7 @@ function reset() {
  * set up the event listener for a card. If a card is clicked:
  *  x display the card's symbol (put this functionality in another function that you call from this one)
  *  x add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
+ *  x if the list already has another card, check to see if the two cards match
  *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
  *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
@@ -66,20 +80,28 @@ function reset() {
 //CHANGE MOVES TO MOVE when (turn === 1)		 if (turns === 1) {
 //			 
 //		 }
+		 
 		 let pair = document.querySelectorAll('.open');
 		 let card1 = pair[0].querySelector('i').className;
 		 let card2 = pair[1].querySelector('i').className;
+			 	 
 		 if (card1 === card2) { //CARDS MATCH
 			 for (k=0; k<2; k++) {
-				 pair[k].classList.remove('open');
-				 pair[k].classList.remove('show');
+				 pair[k].classList.remove('show', 'open');
 				 pair[k].classList.add('match');
 			 }
 		 } else { //CARDS DO NOT MATCH
-			 for (k=0; k<2; k++) {
-				 pair[k].classList.remove('open');
-				 pair[k].classList.remove('show');
-			 }
+			 setTimeout(function() {
+				 for (k=0; k<2; k++) {
+					 pair[k].classList.remove('open', 'show');
+				 }
+			 }, 500);
+		 }
+		 if (turns === 16) { //remove a star at 16 turns if game not won
+			 document.querySelector('.fa-star').remove();
+		 }
+		 if (turns === 24) { //remove a star at 24 turns if game not won
+			 document.querySelector('.fa-star').remove();
 		 }
 	 }
  }
