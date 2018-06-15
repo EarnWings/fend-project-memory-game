@@ -1,6 +1,12 @@
 /*
  * Create a list that holds all of your cards
  */
+let cardDeck = document.querySelectorAll('.card');
+let cardArray = [];
+
+for (i=0; i < cardDeck.length; i++) {
+	cardArray.push(cardDeck[i]);
+}
 
 
 /*
@@ -24,6 +30,8 @@ function shuffle(array) {
 
     return array;
 }
+
+
 
 
 /*
