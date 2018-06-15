@@ -46,10 +46,10 @@ function shuffle(array) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
  function flipCard(event) {
-	 event.target.classList.toggle('open');
+	 event.target.classList.add('open');
  }
  function showCard(event) {
-	 event.target.classList.toggle('show');
+	 event.target.classList.add('show');
 	 flipCard(event);
  }
 
