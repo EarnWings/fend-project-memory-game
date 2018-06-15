@@ -5,7 +5,7 @@ let cardDeck = document.querySelectorAll('.card');
 let cardArray = [];
 
 for (i=0; i < cardDeck.length; i++) {
-	cardArray.push(cardDeck[i]);
+	cardArray.push(cardDeck[i].innerHTML);
 }
 
 
