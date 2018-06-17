@@ -9,18 +9,13 @@
  	 cardArray.push(cardDeck[i].innerHTML);
  }
  
- //BELOW FUNCTION IS NOT WORKING//
  function resetStars() {  //adding stars back to score (no more than 3 stars)
-	 const scorePanel = document.querySelector('.stars');
-	 let starsArray = scorePanel.querySelectorAll('li');
-	 let numberOfStars = starsArray.length;
-	 for (i = numberOfStars; i < 3; i++) {
-		 let listItem = document.createElement('li');
-		 listItem.innerHTML = '<i class="fa fa-star"></i>';
-		 scorePanel.appendChild(listItem);
+	 let stars = document.querySelectorAll('.fa-star');
+	 for (i = 0; i < stars.length; i++) {
+		 stars[i].classList.remove('fa');
+		 stars[i].classList.remove('far');
+		 stars[i].classList.add('fa');
 	 }
- }
- //ABOVE FUNCTION IS NOT WORKING//
  
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -98,12 +93,14 @@ function reset() {
 			 }, 500);
 		 }
 		 if (turns === 16) { //remove a star at 16 turns if game not won
-			 document.querySelector('.fa-star').classList.remove('fa');
-			 document.querySelector('.fa-star').classList.add('far');
+			 let stars = document.querySelectorAll('.fa-star');
+			 stars[2].classList.remove('fa');
+			 stars[2].classList.add('far');
 		 }
 		 if (turns === 24) { //remove a star at 24 turns if game not won
-			 document.querySelector('.fa-star').classList.remove('fa');
-			 document.querySelector('.fa-star').classList.add('far');
+			 let stars = document.querySelectorAll('.fa-star');
+			 stars[1].classList.remove('fa');
+			 stars[1].classList.add('far');
 		 }
 	 }
  }
