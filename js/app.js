@@ -2,13 +2,26 @@
 /*
  * Create a list that holds all of your cards
  */
-let cardDeck = document.querySelectorAll('.card');
-let cardArray = [];
+ let cardDeck = document.querySelectorAll('.card');
+ let cardArray = [];
 
-for (i=0; i < cardDeck.length; i++) {
-	cardArray.push(cardDeck[i].innerHTML);
-}
-
+ for (i=0; i < cardDeck.length; i++) {
+ 	 cardArray.push(cardDeck[i].innerHTML);
+ }
+ 
+ //BELOW FUNCTION IS NOT WORKING//
+ function resetStars() {  //adding stars back to score (no more than 3 stars)
+	 const scorePanel = document.querySelector('.stars');
+	 let starsArray = scorePanel.querySelectorAll('li');
+	 let numberOfStars = starsArray.length;
+	 for (i = numberOfStars; i < 3; i++) {
+		 let listItem = document.createElement('li');
+		 listItem.innerHTML = '<i class="fa fa-star"></i>';
+		 scorePanel.appendChild(listItem);
+	 }
+ }
+ //ABOVE FUNCTION IS NOT WORKING//
+ 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
@@ -31,20 +44,7 @@ function reset() {
  let shuffledCards = shuffle(cardArray);
  turns = 0;
  document.querySelector('.moves').innerText = turns;
-//adding stars back to score (no more than 3)
- const scorePanel = document.querySelector('.stars');
- let starsArray = scorePanel.querySelectorAll('li');
- let numberOfStars = starsArray.length;
- for (i = numberOfStars; i < 3; i++) {
-	 let listItem = document.createElement('LI');
-	 let star = document.createElement('I');
-	 star.classList.add('fa', 'fa-star');
-	 listItem.appendChild(star);
-	 scorePanel.appendChild(listItem);
-	 numberOfStars++;
- }
- // '<li><i class="fa fa-star"></i></li>'; 
-// document.querySelector('.stars').appendChild(star); //Add stars back to score panel
+ resetStars();
  /*
  *   - loop through each card and create its HTML
  *   - add each card's HTML to the page
@@ -98,13 +98,16 @@ function reset() {
 			 }, 500);
 		 }
 		 if (turns === 16) { //remove a star at 16 turns if game not won
-			 document.querySelector('.fa-star').remove();
+			 document.querySelector('.fa-star').classList.remove('fa');
+			 document.querySelector('.fa-star').classList.add('far');
 		 }
 		 if (turns === 24) { //remove a star at 24 turns if game not won
-			 document.querySelector('.fa-star').remove();
+			 document.querySelector('.fa-star').classList.remove('fa');
+			 document.querySelector('.fa-star').classList.add('far');
 		 }
 	 }
  }
+
 
  document.querySelector('.deck').addEventListener('click', showCard);
  
