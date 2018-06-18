@@ -62,7 +62,15 @@ function reset() {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
-
+function winner() {
+	setTimeout(function() {
+		if (document.querySelectorAll('.match').length === 16) {
+			if (confirm('You win! Would you like to play again?')) {
+				reset();
+			}
+		}
+	}, 500);
+}
  let cardFlipCount = 0;
  function flipCard(event) {
 	 event.target.classList.add('open');
@@ -75,9 +83,10 @@ function reset() {
 		 cardFlipCount = 0;
 		 turns++;
 		 document.querySelector('.moves').innerText = turns;
-//CHANGE MOVES TO MOVE when (turn === 1)		 if (turns === 1) {
-//			 
-//		 }
+		 //CHANGE MOVES TO MOVE when (turn === 1)		 
+//		 if (turns === 1) {
+//			 document.querySelector('.score-panel').innerText = "   1 Move";
+//		 }  COMMENTED CODE IMMEDIATELY ABOVE CURRENTLY REALLY SUCKS & NEEDS WORK
 		 
 		 let pair = document.querySelectorAll('.open');
 		 let card1 = pair[0].querySelector('i').className;
@@ -87,6 +96,7 @@ function reset() {
 			 for (k=0; k<2; k++) {
 				 pair[k].classList.remove('show', 'open');
 				 pair[k].classList.add('match');
+				 winner();
 			 }
 		 } else { //CARDS DO NOT MATCH
 			 setTimeout(function() {
