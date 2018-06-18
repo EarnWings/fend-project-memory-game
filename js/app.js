@@ -40,6 +40,7 @@ function reset() {
  */
  let shuffledCards = shuffle(cardArray);
  turns = 0;
+ gameInit = true;
  document.querySelector('.moves').innerText = turns;
  resetStars();
  /*
@@ -112,7 +113,6 @@ function reset() {
 	} else {
 		event.preventDefault();
 		if (confirm('Click OK to start the game!')) {
-			gameInit = true;
 			reset();
 			showCard(event);
 		}
