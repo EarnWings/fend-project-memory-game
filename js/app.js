@@ -1,4 +1,5 @@
  let turns = 0;
+ let gameInit = false;
 /*
  * Create a list that holds all of your cards
  */
@@ -16,6 +17,7 @@
 		 stars[i].classList.remove('far');
 		 stars[i].classList.add('fa');
 	 }
+ }
  
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -79,7 +81,7 @@ function reset() {
 		 let pair = document.querySelectorAll('.open');
 		 let card1 = pair[0].querySelector('i').className;
 		 let card2 = pair[1].querySelector('i').className;
-			 	 
+				 
 		 if (card1 === card2) { //CARDS MATCH
 			 for (k=0; k<2; k++) {
 				 pair[k].classList.remove('show', 'open');
@@ -104,8 +106,19 @@ function reset() {
 		 }
 	 }
  }
+ function initClick(event) {
+	if (gameInit) {
+		showCard(event);
+	} else {
+		event.preventDefault();
+		if (confirm('Click OK to start the game!')) {
+			gameInit = true;
+			reset();
+			showCard(event);
+		}
+	}
+ }
 
-
- document.querySelector('.deck').addEventListener('click', showCard);
+ document.querySelector('.deck').addEventListener('click', initClick);
  
  document.querySelector('.restart').addEventListener('click', reset);
