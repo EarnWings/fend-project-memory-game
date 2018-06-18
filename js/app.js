@@ -65,8 +65,25 @@ function reset() {
 function winner() {
 	setTimeout(function() {
 		if (document.querySelectorAll('.match').length === 16) {
-			if (confirm('You win! Would you like to play again?')) {
-				reset();
+			let starList = document.querySelectorAll('.stars li');
+			let starCount = 0;
+			for (i=0; i < starList.length; i++) {
+				if (starList[i].querySelector('.fa')) {
+					starCount++;
+				}
+			}
+			if (starCount === 1) {
+				if (confirm('You win!\nIt took you ' + turns 
+					+ ' turns.\nYou have ' + starCount + ' Star.\n' 
+					+ 'Would you like to play again?')) {
+					reset();
+				} else {
+					if (confirm('You win!\nIt took you ' + turns 
+						+ ' turns.\nYou have ' + starCount + ' Stars.\n' 
+						+ 'Would you like to play again?')) {
+						reset();
+					}
+				}
 			}
 		}
 	}, 500);
