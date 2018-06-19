@@ -77,14 +77,14 @@ function winner() {
 					+ ' turns.\nYou have ' + starCount + ' Star.\n' 
 					+ 'Would you like to play again?')) {
 					reset();
-				} else {
+				} 
+			} else {
 					if (confirm('You win!\nIt took you ' + turns 
 						+ ' turns.\nYou have ' + starCount + ' Stars.\n' 
 						+ 'Would you like to play again?')) {
 						reset();
 					}
 				}
-			}
 		}
 	}, 500);
 }
