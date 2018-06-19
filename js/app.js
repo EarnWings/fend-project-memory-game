@@ -62,6 +62,12 @@ function reset() {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+ let timer = 0;
+ function timeCount() {
+	 setInterval(function() {
+		 timer++;
+	 }, 1000);
+ }
 function winner() {
 	setTimeout(function() {
 		if (document.querySelectorAll('.match').length === 16) {
@@ -74,17 +80,18 @@ function winner() {
 			}
 			if (starCount === 1) {
 				if (confirm('You win!\nIt took you ' + turns 
-					+ ' turns.\nYou have ' + starCount + ' Star.\n' 
-					+ 'Would you like to play again?')) {
+					+ ' turns.\nYou have ' + starCount + ' Star.\nIt only took you '
+					+ timer + ' seconds!\n'	+ 'Would you like to play again?')) {
 					reset();
 				} 
 			} else {
-					if (confirm('You win!\nIt took you ' + turns 
-						+ ' turns.\nYou have ' + starCount + ' Stars.\n' 
-						+ 'Would you like to play again?')) {
-						reset();
-					}
+				if (confirm('You win!\nIt took you ' + turns + 
+					' turns.\nYou have ' + starCount + 
+					' Stars.\nIt only took you ' + timer + ' seconds!\n' + 
+					'Would you like to play again?')) {
+					reset();
 				}
+			}
 		}
 	}, 500);
 }
