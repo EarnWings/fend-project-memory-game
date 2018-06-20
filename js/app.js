@@ -1,5 +1,8 @@
  let turns = 0;
  let gameInit = false;
+ let timer = 0;
+ let seconds = 0;
+ let minutes = 0;
 /*
  * Create a list that holds all of your cards
  */
@@ -34,23 +37,24 @@ function shuffle(array) {
     return array;
 }
 function reset() {
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method
- */
- let shuffledCards = shuffle(cardArray);
- turns = 0;
- gameInit = true;
- document.querySelector('.moves').innerText = turns;
- resetStars();
- /*
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
- for (i=0; i < shuffledCards.length; i++) {
-	 cardDeck[i].setAttribute('class', 'card');
-	 cardDeck[i].innerHTML = shuffledCards[i];
- }
+	/*
+	 * Display the cards on the page
+	 *   - shuffle the list of cards using the provided "shuffle" method
+	 */
+	 let shuffledCards = shuffle(cardArray);
+	 turns = 0;
+	 timer = 0;
+	 gameInit = true;
+	 document.querySelector('.moves').innerText = turns;
+	 resetStars();
+	 /*
+	 *   - loop through each card and create its HTML
+	 *   - add each card's HTML to the page
+	 */
+	 for (i=0; i < shuffledCards.length; i++) {
+		 cardDeck[i].setAttribute('class', 'card');
+		 cardDeck[i].innerHTML = shuffledCards[i];
+	 }
 }
 /*
  * set up the event listener for a card. If a card is clicked:
@@ -62,15 +66,27 @@ function reset() {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
- let timer = 0;
- function timeCount() {
-	 setInterval(function() {
+ document.querySelector('.timer').innerHTML = minutes + ' Minutes ' + seconds + 
+	' Seconds';
+ function gameTimer () {
+		 if (timer > 59) {
+			 let seconds = (timer % 60);
+			 let minutes = ((timer - seconds) / 60);
+			 document.querySelector('.timer').innerHTML = minutes + 
+			 ' Minutes ' + seconds + ' Seconds';
+		 }
 		 timer++;
-	 }, 1000);
+	 }
+ function timeCount() {
+	 if (timer < 1) {
+		 setInterval(gameTimer, 1000);
+	 }
  }
+ 
 function winner() {
 	setTimeout(function() {
 		if (document.querySelectorAll('.match').length === 16) {
+			clearInterval(gameTimer);
 			let starList = document.querySelectorAll('.stars li');
 			let starCount = 0;
 			for (i=0; i < starList.length; i++) {
@@ -143,11 +159,13 @@ function winner() {
  }
  function initClick(event) {
 	if (gameInit) {
+		timeCount();
 		showCard(event);
 	} else {
 		event.preventDefault();
 		if (confirm('Click OK to start the game!')) {
 			reset();
+			timeCount();
 			showCard(event);
 		}
 	}
