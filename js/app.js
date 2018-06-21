@@ -1,26 +1,26 @@
- let turns = 0;
- let gameInit = false;
- let timer = 0;
- let seconds = 0;
- let minutes = 0;
-/*
- * Create a list that holds all of your cards
- */
- let cardDeck = document.querySelectorAll('.card');
- let cardArray = [];
+let turns = 0;
+let gameInit = false;
+let timer = 0;
+let seconds = "0" + 0;
+let minutes = 0;
+let cardFlipCount = 0;
 
- for (i=0; i < cardDeck.length; i++) {
- 	 cardArray.push(cardDeck[i].innerHTML);
- }
+// Create a list that holds all of your cards
+let cardDeck = document.querySelectorAll('.card');
+let cardArray = [];
+
+for (i=0; i < cardDeck.length; i++) {
+	cardArray.push(cardDeck[i].innerHTML);
+}
  
- function resetStars() {  //adding stars back to score (no more than 3 stars)
-	 let stars = document.querySelectorAll('.fa-star');
-	 for (i = 0; i < stars.length; i++) {
-		 stars[i].classList.remove('fa');
-		 stars[i].classList.remove('far');
-		 stars[i].classList.add('fa');
-	 }
- }
+function resetStars() {  //adding stars back to score (no more than 3 stars)
+	let stars = document.querySelectorAll('.fa-star');
+	for (i = 0; i < stars.length; i++) {
+		stars[i].classList.remove('fa');
+		stars[i].classList.remove('far');
+		stars[i].classList.add('fa');
+	}
+}
  
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -36,25 +36,33 @@ function shuffle(array) {
 
     return array;
 }
+
+//Reset function - used to shuffle and reset the deck for a new game
 function reset() {
-	/*
-	 * Display the cards on the page
-	 *   - shuffle the list of cards using the provided "shuffle" method
-	 */
-	 let shuffledCards = shuffle(cardArray);
-	 turns = 0;
-	 timer = 0;
-	 gameInit = true;
-	 document.querySelector('.moves').innerText = turns;
-	 resetStars();
-	 /*
-	 *   - loop through each card and create its HTML
-	 *   - add each card's HTML to the page
-	 */
-	 for (i=0; i < shuffledCards.length; i++) {
-		 cardDeck[i].setAttribute('class', 'card');
-		 cardDeck[i].innerHTML = shuffledCards[i];
-	 }
+//shuffle the list of cards using the provided "shuffle" method
+	let shuffledCards = shuffle(cardArray);
+//reset turn count to 0
+	cardFlipCount = 0;
+	turns = 0;
+	//reset the display of turn count
+	document.querySelector('.moves').innerText = turns;
+//reset timer to 0:00
+	timer = 0;
+	seconds = "0" + 0;
+	minutes = 0;
+	//reset the display of the timer to 0:00
+	document.querySelector('.timer').innerHTML = minutes + ':' + seconds;
+//set gameInit to True (avoids user prompt when clicking first card)
+	gameInit = true;
+//reset the star count
+	resetStars();
+//loop through each card and create its HTML
+	for (i=0; i < shuffledCards.length; i++) {
+		//add each card's HTML to the page
+		cardDeck[i].setAttribute('class', 'card');
+		//Display the cards on the page
+		cardDeck[i].innerHTML = shuffledCards[i];
+	}
 }
 /*
  * set up the event listener for a card. If a card is clicked:
@@ -66,15 +74,16 @@ function reset() {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
- document.querySelector('.timer').innerHTML = minutes + ' Minutes ' + seconds + 
-	' Seconds';
+ document.querySelector('.timer').innerHTML = minutes + ':' + seconds;
  function gameTimer () {
 		 if (timer > 59) {
-			 let seconds = (timer % 60);
-			 let minutes = ((timer - seconds) / 60);
-			 document.querySelector('.timer').innerHTML = minutes + 
-			 ' Minutes ' + seconds + ' Seconds';
+			 seconds = (timer % 60);
+			 minutes = ((timer - seconds) / 60);
+			 if (seconds < 10) {
+				 seconds = "0" + seconds;
+			 }
 		 }
+		 document.querySelector('.timer').innerHTML = minutes + ':' + seconds;
 		 timer++;
 	 }
  function timeCount() {
@@ -111,7 +120,7 @@ function winner() {
 		}
 	}, 500);
 }
- let cardFlipCount = 0;
+
  function flipCard(event) {
 	 event.target.classList.add('open');
  }
@@ -120,7 +129,6 @@ function winner() {
 	 flipCard(event);
 	 cardFlipCount++;
 	 if (cardFlipCount % 2 === 0) {
-		 cardFlipCount = 0;
 		 turns++;
 		 document.querySelector('.moves').innerText = turns;
 		 //CHANGE MOVES TO MOVE when (turn === 1)		 
@@ -162,7 +170,7 @@ function winner() {
 		timeCount();
 		showCard(event);
 	} else {
-		event.preventDefault();
+//		event.preventDefault();
 		if (confirm('Click OK to start the game!')) {
 			reset();
 			timeCount();
