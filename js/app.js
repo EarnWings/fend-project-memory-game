@@ -1,9 +1,11 @@
+//declare variables
 let turns = 0;
 let gameInit = false;
 let timer = 0;
 let seconds = "0" + 0;
 let minutes = 0;
 let cardFlipCount = 0;
+let interval;
 
 // Create a list that holds all of your cards
 let cardDeck = document.querySelectorAll('.card');
@@ -64,38 +66,34 @@ function reset() {
 		cardDeck[i].innerHTML = shuffledCards[i];
 	}
 }
-/*
- * set up the event listener for a card. If a card is clicked:
- *  x display the card's symbol (put this functionality in another function that you call from this one)
- *  x add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  x if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
- document.querySelector('.timer').innerHTML = minutes + ':' + seconds;
- function gameTimer () {
-		 if (timer > 59) {
-			 seconds = (timer % 60);
-			 minutes = ((timer - seconds) / 60);
-			 if (seconds < 10) {
-				 seconds = "0" + seconds;
-			 }
-		 }
-		 document.querySelector('.timer').innerHTML = minutes + ':' + seconds;
-		 timer++;
-	 }
- function timeCount() {
-	 if (timer < 1) {
-		 setInterval(gameTimer, 1000);
-	 }
- }
- 
+//initialize timer display
+document.querySelector('.timer').innerHTML = minutes + ':' + seconds;
+function gameTimer () {
+	if (timer > 59) {
+		seconds = (timer % 60);
+		minutes = ((timer - seconds) / 60);
+		if (seconds < 10) {
+			seconds = "0" + seconds;
+		}
+	} else {
+		seconds = timer;
+		if (seconds < 10) {
+			seconds = "0" + seconds;
+		}
+	}
+	document.querySelector('.timer').innerHTML = minutes + ':' + seconds;
+	timer++;
+	}
+function timeCount() {
+	if (timer < 1) {
+		interval = setInterval(gameTimer, 1000);
+	}
+}
+////if all cards have matched, display a message with the final score
 function winner() {
 	setTimeout(function() {
 		if (document.querySelectorAll('.match').length === 16) {
-			clearInterval(gameTimer);
+			clearInterval(interval);
 			let starList = document.querySelectorAll('.stars li');
 			let starCount = 0;
 			for (i=0; i < starList.length; i++) {
@@ -104,15 +102,16 @@ function winner() {
 				}
 			}
 			if (starCount === 1) {
-				if (confirm('You win!\nIt took you ' + turns 
-					+ ' turns.\nYou have ' + starCount + ' Star.\nIt only took you '
-					+ timer + ' seconds!\n'	+ 'Would you like to play again?')) {
+				if (confirm('Congratulations, you have won!\nIt took you ' + turns 
+					+ ' moves.\nYou have ' + starCount + ' star.\nIt only took you ' 
+					+ minutes + ' minutes, ' + seconds + ' seconds!\n' + 
+					'Would you like to play again?')) {
 					reset();
 				} 
 			} else {
-				if (confirm('You win!\nIt took you ' + turns + 
-					' turns.\nYou have ' + starCount + 
-					' Stars.\nIt only took you ' + timer + ' seconds!\n' + 
+				if (confirm('Congratulations, you have won!\nIt took you ' + turns + 
+					' moves.\nYou have ' + starCount + ' stars.\nIt only took you ' 
+					+ minutes + ' minutes, ' + seconds + ' seconds!\n' + 
 					'Would you like to play again?')) {
 					reset();
 				}
@@ -121,64 +120,79 @@ function winner() {
 	}, 500);
 }
 
- function flipCard(event) {
-	 event.target.classList.add('open');
- }
- function showCard(event) {
-	 event.target.classList.add('show');
-	 flipCard(event);
-	 cardFlipCount++;
-	 if (cardFlipCount % 2 === 0) {
-		 turns++;
-		 document.querySelector('.moves').innerText = turns;
-		 //CHANGE MOVES TO MOVE when (turn === 1)		 
-//		 if (turns === 1) {
-//			 document.querySelector('.score-panel').innerText = "   1 Move";
-//		 }  COMMENTED CODE IMMEDIATELY ABOVE CURRENTLY REALLY SUCKS & NEEDS WORK
-		 
-		 let pair = document.querySelectorAll('.open');
-		 let card1 = pair[0].querySelector('i').className;
-		 let card2 = pair[1].querySelector('i').className;
-				 
-		 if (card1 === card2) { //CARDS MATCH
-			 for (k=0; k<2; k++) {
-				 pair[k].classList.remove('show', 'open');
-				 pair[k].classList.add('match');
-				 winner();
-			 }
-		 } else { //CARDS DO NOT MATCH
-			 setTimeout(function() {
-				 for (k=0; k<2; k++) {
-					 pair[k].classList.remove('open', 'show');
-				 }
-			 }, 500);
-		 }
-		 if (turns === 16) { //remove a star at 16 turns if game not won
-			 let stars = document.querySelectorAll('.fa-star');
-			 stars[2].classList.remove('fa');
-			 stars[2].classList.add('far');
-		 }
-		 if (turns === 24) { //remove a star at 24 turns if game not won
-			 let stars = document.querySelectorAll('.fa-star');
-			 stars[1].classList.remove('fa');
-			 stars[1].classList.add('far');
-		 }
-	 }
- }
- function initClick(event) {
+//if the cards do match, lock the cards in the open position
+function match () {
+	for (k=0; k<2; k++) {
+		pair[k].classList.remove('show', 'open');
+		pair[k].classList.add('match');
+		winner();
+	}
+}
+//if the cards do not match, remove the cards from the list and hide the card's symbol
+function noMatch () {
+	setTimeout(function() {
+		for (k=0; k<2; k++) {
+			pair[k].classList.remove('open', 'show');
+		}
+	}, 500);
+}
+//increment the move counter and display it on the page
+function addMove () {
+	turns++;
+	document.querySelector('.moves').innerText = turns;
+	//CHANGE MOVES TO MOVE when (turn === 1)		 
+//	if (turns === 1) {
+//		document.querySelector('.score-panel').innerText = "   1 Move";
+//	}  COMMENTED CODE IMMEDIATELY ABOVE CURRENTLY REALLY SUCKS & NEEDS WORK
+}
+//add the card to a *list* of "open" cards
+function flipCard(event) {
+	event.target.classList.add('open');
+}
+//display the card's symbol
+function showCard(event) {
+	event.target.classList.add('show');
+	flipCard(event);
+	cardFlipCount++;
+	if (cardFlipCount % 2 === 0) {
+		addMove();
+		
+		pair = document.querySelectorAll('.open');
+		card1 = pair[0].querySelector('i').className;
+		card2 = pair[1].querySelector('i').className;
+		
+		if (card1 === card2) { ////check to see if the two cards match
+			match();
+		} else {
+			noMatch();
+		}
+		if (turns === 16) { //remove a star at 16 turns if game not won
+			let stars = document.querySelectorAll('.fa-star');
+			stars[2].classList.remove('fa');
+			stars[2].classList.add('far');
+		}
+		if (turns === 24) { //remove a star at 24 turns if game not won
+			let stars = document.querySelectorAll('.fa-star');
+			stars[1].classList.remove('fa');
+			stars[1].classList.add('far');
+		}
+	}
+}
+function initClick(event) {
 	if (gameInit) {
-		timeCount();
 		showCard(event);
+		timeCount();
 	} else {
 //		event.preventDefault();
 		if (confirm('Click OK to start the game!')) {
 			reset();
-			timeCount();
 			showCard(event);
+			timeCount();
 		}
 	}
- }
+}
 
- document.querySelector('.deck').addEventListener('click', initClick);
+//set up the event listener for a card.
+document.querySelector('.deck').addEventListener('click', initClick);
  
- document.querySelector('.restart').addEventListener('click', reset);
+document.querySelector('.restart').addEventListener('click', reset);
