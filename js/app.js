@@ -107,7 +107,7 @@ function winner() {
 					+ minutes + ' minutes, ' + seconds + ' seconds!\n' + 
 					'Would you like to play again?')) {
 					reset();
-				} 
+				}
 			} else {
 				if (confirm('Congratulations, you have won!\nIt took you ' + turns + 
 					' moves.\nYou have ' + starCount + ' stars.\nIt only took you ' 
@@ -140,7 +140,7 @@ function noMatch () {
 function addMove () {
 	turns++;
 	document.querySelector('.moves').innerText = turns;
-	//CHANGE MOVES TO MOVE when (turn === 1)		 
+	//CHANGE MOVES TO MOVE when (turn === 1)
 //	if (turns === 1) {
 //		document.querySelector('.score-panel').innerText = "   1 Move";
 //	}  COMMENTED CODE IMMEDIATELY ABOVE CURRENTLY REALLY SUCKS & NEEDS WORK
@@ -156,11 +156,11 @@ function showCard(event) {
 	cardFlipCount++;
 	if (cardFlipCount % 2 === 0) {
 		addMove();
-		
+
 		pair = document.querySelectorAll('.open');
 		card1 = pair[0].querySelector('i').className;
 		card2 = pair[1].querySelector('i').className;
-		
+
 		if (card1 === card2) { ////check to see if the two cards match
 			match();
 		} else {
@@ -194,5 +194,5 @@ function initClick(event) {
 
 //set up the event listener for a card.
 document.querySelector('.deck').addEventListener('click', initClick);
- 
+
 document.querySelector('.restart').addEventListener('click', reset);
