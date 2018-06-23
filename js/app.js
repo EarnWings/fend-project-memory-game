@@ -1,5 +1,5 @@
 //declare variables
-let turns = 0;
+let moves = 0;
 let timer = 0;
 let seconds = "0" + 0;
 let minutes = 0;
@@ -44,11 +44,11 @@ function shuffle(array) {
 function reset() {
 //shuffle the list of cards using the provided "shuffle" method
 	let shuffledCards = shuffle(cardArray);
-//reset turn count to 0
+//reset move count to 0
 	cardFlipCount = 0;
-	turns = 0;
+	moves = 0;
 	//reset the display of turn count
-	document.querySelector('.moves').innerText = turns;
+	document.querySelector('.moves').innerText = moves;
 //reset timer to 0:00
 	timer = 0;
 	seconds = "0" + 0;
@@ -101,14 +101,14 @@ function winner() {
 				}
 			}
 			if (starCount === 1) {
-				if (confirm('Congratulations, you have won!\nIt took you ' + turns 
+				if (confirm('Congratulations, you have won!\nIt took you ' + moves 
 					+ ' moves.\nYou have ' + starCount + ' star.\nIt only took you ' 
 					+ minutes + ' minutes, ' + seconds + ' seconds!\n' + 
 					'Would you like to play again?')) {
 					reset();
 				}
 			} else {
-				if (confirm('Congratulations, you have won!\nIt took you ' + turns + 
+				if (confirm('Congratulations, you have won!\nIt took you ' + moves + 
 					' moves.\nYou have ' + starCount + ' stars.\nIt only took you ' 
 					+ minutes + ' minutes, ' + seconds + ' seconds!\n' + 
 					'Would you like to play again?')) {
@@ -137,13 +137,14 @@ function noMatch () {
 }
 //increment the move counter and display it on the page
 function addMove () {
-	turns++;
-	document.querySelector('.moves').innerText = turns;
+	moves++;
+	document.querySelector('.moves').innerText = moves;
 	//CHANGE MOVES TO MOVE when (turn === 1)
-//	if (turns === 1) {
+//	if (moves === 1) {
 //		document.querySelector('.score-panel').innerText = "   1 Move";
 //	}  COMMENTED CODE IMMEDIATELY ABOVE CURRENTLY REALLY SUCKS & NEEDS WORK
 }
+
 //add the card to a *list* of "open" cards
 function flipCard(event) {
 	event.target.classList.add('open');
@@ -165,12 +166,12 @@ function showCard(event) {
 		} else {
 			noMatch();
 		}
-		if (turns === 16) { //remove a star at 16 turns if game not won
+		if (moves === 16) { //remove a star at 16 moves if game not won
 			let stars = document.querySelectorAll('.fa-star');
 			stars[2].classList.remove('fa');
 			stars[2].classList.add('far');
 		}
-		if (turns === 24) { //remove a star at 24 turns if game not won
+		if (moves === 24) { //remove a star at 24 moves if game not won
 			let stars = document.querySelectorAll('.fa-star');
 			stars[1].classList.remove('fa');
 			stars[1].classList.add('far');
