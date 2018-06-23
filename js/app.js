@@ -1,6 +1,5 @@
 //declare variables
 let turns = 0;
-let gameInit = false;
 let timer = 0;
 let seconds = "0" + 0;
 let minutes = 0;
@@ -14,7 +13,9 @@ let cardArray = [];
 for (i=0; i < cardDeck.length; i++) {
 	cardArray.push(cardDeck[i].innerHTML);
 }
- 
+
+reset();
+
 function resetStars() {  //adding stars back to score (no more than 3 stars)
 	let stars = document.querySelectorAll('.fa-star');
 	for (i = 0; i < stars.length; i++) {
@@ -54,8 +55,6 @@ function reset() {
 	minutes = 0;
 	//reset the display of the timer to 0:00
 	document.querySelector('.timer').innerHTML = minutes + ':' + seconds;
-//set gameInit to True (avoids user prompt when clicking first card)
-	gameInit = true;
 //reset the star count
 	resetStars();
 //loop through each card and create its HTML
@@ -178,17 +177,13 @@ function showCard(event) {
 		}
 	}
 }
+
 function initClick(event) {
-	if (gameInit) {
+	if (cardFlipCount === 0) {
 		showCard(event);
 		timeCount();
 	} else {
-//		event.preventDefault();
-		if (confirm('Click OK to start the game!')) {
-			reset();
-			showCard(event);
-			timeCount();
-		}
+		showCard(event);
 	}
 }
 
