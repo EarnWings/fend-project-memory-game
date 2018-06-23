@@ -156,30 +156,44 @@ function flipCard(event) {
 
 //display the card's symbol
 function showCard(event) {
-	event.target.classList.add('show');
-	flipCard(event);
-	cardFlipCount++;
-	if (cardFlipCount % 2 === 0) {
-		addMove();
+	if (event.target.className === "card show open" || 
+		event.target.className === "deck" || 
+		event.target.className === "card match" || 
+		event.target.className === "far fa-gem" || 
+		event.target.className === "far fa-paper-plane" || 
+		event.target.className === "fa fa-anchor" || 
+		event.target.className === "fa fa-bolt" || 
+		event.target.className === "fa fa-cube" || 
+		event.target.className === "fa fa-leaf" || 
+		event.target.className === "fa fa-bicycle" || 
+		event.target.className === "fa fa-bomb") {
+		alert("Cannot select deck, matched card, or same card twice");
+	} else {
+		event.target.classList.add('show');
+		flipCard(event);
+		cardFlipCount++;
+		if (cardFlipCount % 2 === 0) {
+			addMove();
 
-		pair = document.querySelectorAll('.open');
-		card1 = pair[0].querySelector('i').className;
-		card2 = pair[1].querySelector('i').className;
+			pair = document.querySelectorAll('.open');
+			card1 = pair[0].querySelector('i').className;
+			card2 = pair[1].querySelector('i').className;
 
-		if (card1 === card2) { ////check to see if the two cards match
-			match();
-		} else {
-			noMatch();
-		}
-		if (moves === 16) { //remove a star at 16 moves if game not won
-			let stars = document.querySelectorAll('.fa-star');
-			stars[2].classList.remove('fa');
-			stars[2].classList.add('far');
-		}
-		if (moves === 24) { //remove a star at 24 moves if game not won
-			let stars = document.querySelectorAll('.fa-star');
-			stars[1].classList.remove('fa');
-			stars[1].classList.add('far');
+			if (card1 === card2) { ////check to see if the two cards match
+				match();
+			} else {
+				noMatch();
+			}
+			if (moves === 16) { //remove a star at 16 moves if game not won
+				let stars = document.querySelectorAll('.fa-star');
+				stars[2].classList.remove('fa');
+				stars[2].classList.add('far');
+			}
+			if (moves === 24) { //remove a star at 24 moves if game not won
+				let stars = document.querySelectorAll('.fa-star');
+				stars[1].classList.remove('fa');
+				stars[1].classList.add('far');
+			}
 		}
 	}
 }
