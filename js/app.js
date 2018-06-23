@@ -1,3 +1,5 @@
+//TODO: fix "winner" but - not working when reset
+
 //declare variables
 let moves = 0;
 let timer = 0;
@@ -47,7 +49,7 @@ function reset() {
 //reset move count to 0
 	cardFlipCount = 0;
 	moves = 0;
-	//reset the display of turn count
+	//reset the display of move count
 	document.querySelector('.moves').innerText = moves;
 //reset timer to 0:00
 	timer = 0;
@@ -101,17 +103,17 @@ function winner() {
 				}
 			}
 			if (starCount === 1) {
-				if (confirm('Congratulations, you have won!\nIt took you ' + moves 
-					+ ' moves.\nYou have ' + starCount + ' star.\nIt only took you ' 
-					+ minutes + ' minutes, ' + seconds + ' seconds!\n' + 
-					'Would you like to play again?')) {
+				if (confirm('Congratulations, you have won!\nIt took you ' + 
+					moves + ' moves.\nYou have ' + starCount + 
+					' star.\nIt only took you ' + minutes + ' minutes, ' + 
+					seconds + ' seconds!\n' + 'Would you like to play again?')) {
 					reset();
 				}
 			} else {
-				if (confirm('Congratulations, you have won!\nIt took you ' + moves + 
-					' moves.\nYou have ' + starCount + ' stars.\nIt only took you ' 
-					+ minutes + ' minutes, ' + seconds + ' seconds!\n' + 
-					'Would you like to play again?')) {
+				if (confirm('Congratulations, you have won!\nIt took you ' + 
+					moves + ' moves.\nYou have ' + starCount + 
+					' stars.\nIt only took you ' + minutes + ' minutes, ' + 
+					seconds + ' seconds!\n' + 'Would you like to play again?')) {
 					reset();
 				}
 			}
@@ -127,6 +129,7 @@ function match () {
 		winner();
 	}
 }
+
 //if the cards do not match, remove the cards from the list and hide the card's symbol
 function noMatch () {
 	setTimeout(function() {
@@ -135,20 +138,22 @@ function noMatch () {
 		}
 	}, 500);
 }
+
 //increment the move counter and display it on the page
 function addMove () {
 	moves++;
 	document.querySelector('.moves').innerText = moves;
-	//CHANGE MOVES TO MOVE when (turn === 1)
+//TODO:	//CHANGE MOVES TO MOVE when (turn === 1)
 //	if (moves === 1) {
 //		document.querySelector('.score-panel').innerText = "   1 Move";
 //	}  COMMENTED CODE IMMEDIATELY ABOVE CURRENTLY REALLY SUCKS & NEEDS WORK
 }
 
-//add the card to a *list* of "open" cards
+//add the card to "open" cards
 function flipCard(event) {
 	event.target.classList.add('open');
 }
+
 //display the card's symbol
 function showCard(event) {
 	event.target.classList.add('show');
