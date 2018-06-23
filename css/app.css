@@ -114,3 +114,15 @@ h1 {
     display: inline-block;
 	font-weight: bold;
 }
+
+@media only screen and (max-width: 659px) {
+	.deck {
+		max-width: 99%;
+		padding: 2em;
+	}
+
+	.deck .card {
+		max-height: 22%;
+		max-width: 22%;
+	}
+}
